@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+//import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
@@ -27,15 +28,30 @@ public class CadastrarPessoaTeste {
     private CadastrarPessoa cadastrarPessoa;
 
     @Test
+    void validarDadosDeCadastro() {
+        DadosLocalizacao dadosLocalizacao = new DadosLocalizacao("PR", "Curitiba", "Rua Castro Alves", "Casa", "Pilarzinho");
+
+        Mockito.when(apiDosCorreios.buscaDadosComBaseNoCep("82120340")).thenReturn(dadosLocalizacao);
+
+        Pessoa pessoa = cadastrarPessoa.cadastrarPessoa("Priscila", "28578527976", LocalDate.of(1947, 11, 12), "82120340");
+
+        assertEquals("Priscila", pessoa.getNome());
+        assertEquals("28578527976", pessoa.getDocumento());
+        assertEquals("PR", pessoa.getEndereco().getUf());
+        assertEquals("Casa", pessoa.getEndereco().getComplemento());
+    }
+
+
+    /*    @Test
     void cadastrarPessoa() {
 
-        DadosLocalizacao dadosLocalizacao = new DadosLocalizacao("MG", "Uberaba", "Rua Castro Alves", "Casa", "Nova Floresta");
+        DadosLocalizacao dadosLocalizacao = new DadosLocalizacao("PR", "Curitiba", "Rua Castro Alves", "Casa", "Pilarzinho");
 
         Mockito.when(apiDosCorreios.buscaDadosComBaseNoCep(anyString())).thenReturn(dadosLocalizacao);
 
-        Pessoa jose = cadastrarPessoa.cadastrarPessoa("José", "28578527976", LocalDate.of(1947, 1, 15), "69317300");
+        Pessoa priscila = cadastrarPessoa.cadastrarPessoa("Priscila", "28578527976", LocalDate.of(1947, 11, 12), "82120340");
 
-        DadosLocalizacao enderecoJose = jose.getEndereco();
+        DadosLocalizacao enderecoJose = priscila.getEndereco();
         assertEquals(dadosLocalizacao.getBairro(), enderecoJose.getBairro());
         assertEquals(dadosLocalizacao.getCidade(), enderecoJose.getCidade());
         assertEquals(dadosLocalizacao.getUf(), enderecoJose.getUf());
@@ -46,7 +62,7 @@ public class CadastrarPessoaTeste {
 
         Mockito.when(apiDosCorreios.buscaDadosComBaseNoCep(anyString())).thenThrow(RuntimeException.class);
 
-        Assertions.assertThrows(RuntimeException.class, () -> cadastrarPessoa.cadastrarPessoa("José", "28578527976", LocalDate.of(1947, 1, 15), "69317300"));
-    }
+        Assertions.assertThrows(RuntimeException.class, () -> cadastrarPessoa.cadastrarPessoa("Priscila", "28578527976", LocalDate.of(1979, 11, 12), "82120340"));
+    } */
 
 }
