@@ -19,8 +19,26 @@ public class ServicoEnvioEmailTeste {
     private ServicoEnvioEmail servico;
 
     @Captor
-    private ArgumentCaptor<Email> emailCaptor;
+    private ArgumentCaptor<Email> captor;
 
+    @Test
+    void validarDadosEnviadosParaAPlataforma() {
+        String endereçoDeEmail = "usuario@test.com.br";
+        String mensagem ="Olá mundo teste mensagem";
+        boolean ehFormatoHtml = false;
+
+        servico.enviaEmail(endereçoDeEmail, mensagem, ehFormatoHtml);
+
+        Mockito.verify(plataforma).enviaEmail(captor.capture());
+
+        Email emailCapturado = captor.getValue();
+
+        Assertions.assertEquals(endereçoDeEmail, emailCapturado.getEnderecoEmail());
+        Assertions.assertEquals(mensagem, emailCapturado.getMensagem());
+        Assertions.assertEquals(Formato.TEXTO, emailCapturado.getFormato());
+    }
+
+    /*
     @Test
     public void validaSeEmailEstaComDadosCorretos() {
 
@@ -34,4 +52,5 @@ public class ServicoEnvioEmailTeste {
         Assertions.assertEquals(Formato.HTML, emailCapturado.getFormato());
     }
 
+     */
 }
