@@ -17,7 +17,7 @@ import static org.mockito.Mockito.anyInt;
  */
 @ExtendWith(MockitoExtension.class)
 public class GeradorDeNumerosTeste {
-
+    
     @Test
     void validaGeracaoListaDeNumeros() {
         MockedStatic<GeradorDeNumeros> gerador = Mockito.mockStatic(GeradorDeNumeros.class);
@@ -41,4 +41,5 @@ public class GeradorDeNumerosTeste {
 
         Assertions.assertEquals(integers, GeradorDeNumeros.geraNumerosAleatorios());
     }
+     
 }

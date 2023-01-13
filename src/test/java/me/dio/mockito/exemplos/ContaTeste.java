@@ -1,17 +1,17 @@
 package me.dio.mockito.exemplos;
 
-import static org.mockito.Mockito.when;
+//import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatcher;
+//import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import net.bytebuddy.asm.Advice.Argument;
+//import net.bytebuddy.asm.Advice.Argument;
 
 /**
  * Teste da classe {@link Conta} usando Spy para realizar o recurso de verificações
