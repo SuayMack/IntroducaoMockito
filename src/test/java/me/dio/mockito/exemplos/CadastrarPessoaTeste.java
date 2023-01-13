@@ -1,18 +1,20 @@
 package me.dio.mockito.exemplos;
 
+import org.junit.jupiter.api.Assertions;
 //import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-//import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.anyString;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.doThrow;;
 
 /**
  * Teste da classe {@link CadastrarPessoa} apresentando cenários básicos de uso do Mockito, usando o recurso
@@ -26,7 +28,7 @@ public class CadastrarPessoaTeste {
 
     @InjectMocks
     private CadastrarPessoa cadastrarPessoa;
-
+    
     @Test
     void validarDadosDeCadastro() {
         DadosLocalizacao dadosLocalizacao = new DadosLocalizacao("PR", "Curitiba", "Rua Castro Alves", "Casa", "Pilarzinho");
@@ -41,28 +43,37 @@ public class CadastrarPessoaTeste {
         assertEquals("Casa", pessoa.getEndereco().getComplemento());
     }
 
-
-    /*    @Test
+    @Test
     void cadastrarPessoa() {
 
-        DadosLocalizacao dadosLocalizacao = new DadosLocalizacao("PR", "Curitiba", "Rua Castro Alves", "Casa", "Pilarzinho");
+        /*DadosLocalizacao dadosLocalizacao = new DadosLocalizacao("PR", "Curitiba", "Rua Castro Alves", "Casa", "Pilarzinho");*/
 
-        Mockito.when(apiDosCorreios.buscaDadosComBaseNoCep(anyString())).thenReturn(dadosLocalizacao);
+        Mockito.when(apiDosCorreios.buscaDadosComBaseNoCep(anyString())).thenReturn(null);
 
         Pessoa priscila = cadastrarPessoa.cadastrarPessoa("Priscila", "28578527976", LocalDate.of(1947, 11, 12), "82120340");
 
-        DadosLocalizacao enderecoJose = priscila.getEndereco();
-        assertEquals(dadosLocalizacao.getBairro(), enderecoJose.getBairro());
-        assertEquals(dadosLocalizacao.getCidade(), enderecoJose.getCidade());
-        assertEquals(dadosLocalizacao.getUf(), enderecoJose.getUf());
+        assertNull(priscila.getEndereco());
     }
 
+    @Test
+    void lancarExceptionQuandoChamarApiCorreios() {
+
+        doThrow(IllegalArgumentException.class)
+            .when(apiDosCorreios)
+                .buscaDadosComBaseNoCep(anyString());
+
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> cadastrarPessoa.cadastrarPessoa("Priscila", "28578527976", LocalDate.of(1947, 11, 12), "82120340"));
+        
+    }
+
+    /*
     @Test
     void tentaCadastrarPessoaMasSistemaDosCorreiosFalha() {
 
         Mockito.when(apiDosCorreios.buscaDadosComBaseNoCep(anyString())).thenThrow(RuntimeException.class);
 
         Assertions.assertThrows(RuntimeException.class, () -> cadastrarPessoa.cadastrarPessoa("Priscila", "28578527976", LocalDate.of(1979, 11, 12), "82120340"));
-    } */
-
+    } 
+     */
 }
